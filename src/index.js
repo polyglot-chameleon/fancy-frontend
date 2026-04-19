@@ -1,6 +1,5 @@
 import { makeArticle } from "./article.js";
 import "./style.css";
-import "../public/custom-skinmc.png";
 
 let articles = [];
 
