@@ -3,7 +3,32 @@ services:
     build:
       context: .
       dockerfile: Containerfile
+      target: root
     ports:
       - '8080:8080'
     environment:
       NODE_ENV: development
+
+  api:
+    build:
+      context: .
+      dockerfile: Containerfile
+      target: api
+    environment:
+      DB_CONN: "mongodb://root:example@mongo:27017/astrophel"
+    depends_on: [mongo]
+
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGODB_INITDB_ROOT_USERNAME: root
+      MONGODB_INITDB_ROOT_PASSWORD: example
+      MONGODB_INITDB_DATABASE: astrophel
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: always
+
+volumes:
+  mongo-data:
